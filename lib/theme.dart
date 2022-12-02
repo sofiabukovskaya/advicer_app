@@ -41,10 +41,10 @@ class AppTheme {
 
   // Text Style - dark
   static final TextStyle _darkThemeHeadingTextStyle =
-  _lightHeadingText.copyWith(color: _darkTextColorPrimary);
+      _lightHeadingText.copyWith(color: _darkTextColorPrimary);
 
   static final TextStyle _darkThemeBodyeTextStyle =
-  _lightBodyText.copyWith(color: _darkTextColorPrimary);
+      _lightBodyText.copyWith(color: _darkTextColorPrimary);
 
   static final TextTheme _darkTextTheme = TextTheme(
     headline1: _darkThemeHeadingTextStyle,

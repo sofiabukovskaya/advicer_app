@@ -1,3 +1,4 @@
+import 'package:advicer_app/application/pages/advice/advice_page.dart';
 import 'package:advicer_app/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -23,9 +24,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           themeMode:
               themeService.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+          debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          home: const Placeholder(),
+          home: const AdvicePage(),
         );
       },
     );
