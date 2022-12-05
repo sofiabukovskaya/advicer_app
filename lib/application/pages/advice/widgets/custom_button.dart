@@ -1,4 +1,7 @@
+import 'package:advicer_app/application/pages/advice/bloc/advice_bloc.dart';
+import 'package:advicer_app/application/pages/advice/bloc/advice_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({Key? key}) : super(key: key);
@@ -8,7 +11,9 @@ class CustomButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return InkResponse(
-      onTap: () {},
+      onTap: () => BlocProvider.of<AdviceBloc>(context).add(
+        AdviceRequestEvent(param: 'D'),
+      ),
       child: Material(
         elevation: 20,
         borderRadius: BorderRadius.circular(15),

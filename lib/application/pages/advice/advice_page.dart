@@ -1,8 +1,24 @@
 import 'package:advicer_app/application/core/services/theme_service.dart';
+import 'package:advicer_app/application/pages/advice/bloc/advice_bloc.dart';
+import 'package:advicer_app/application/pages/advice/bloc/advice_state.dart';
 import 'package:advicer_app/application/pages/advice/widgets/advice_field.dart';
 import 'package:advicer_app/application/pages/advice/widgets/custom_button.dart';
+import 'package:advicer_app/application/pages/advice/widgets/error_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+class AdvicePageWrapperProvider extends StatelessWidget {
+  const AdvicePageWrapperProvider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AdviceBloc(),
+      child: const AdvicePage(),
+    );
+  }
+}
 
 class AdvicePage extends StatelessWidget {
   const AdvicePage({Key? key}) : super(key: key);
@@ -30,13 +46,31 @@ class AdvicePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(
-          children: const [
+          children: [
             Expanded(
               child: Center(
-                child: AdviceField(advice: 'Your day will be good!'),
+                child: BlocBuilder<AdviceBloc, AdviceState>(
+                  builder: (context, state) {
+                    if (state is AdviceInitial) {
+                      return Text(
+                        'Your advice is waiting for you!',
+                        style: themeData.textTheme.headline1,
+                      );
+                    } else if (state is AdviceStateLoading) {
+                      return CircularProgressIndicator(
+                        color: themeData.colorScheme.secondary,
+                      );
+                    } else if (state is AdviceStateLoaded) {
+                      return AdviceField(advice: state.advice);
+                    } else if (state is AdviceStateError) {
+                      return ErrorMessage(errorMessage: state.message);
+                    }
+                    return const SizedBox();
+                  },
+                ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 200,
               child: Center(
                 child: CustomButton(),
