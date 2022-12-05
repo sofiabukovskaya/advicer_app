@@ -1,7 +1,8 @@
-abstract class AdviceEvent {}
+import 'package:equatable/equatable.dart';
 
-class AdviceRequestEvent extends AdviceEvent {
-  final String param;
-
-  AdviceRequestEvent({required this.param});
+abstract class AdviceEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
+
+class AdviceRequestEvent extends AdviceEvent {}

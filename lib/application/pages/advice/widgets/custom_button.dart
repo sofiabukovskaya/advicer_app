@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
 
     return InkResponse(
       onTap: () => BlocProvider.of<AdviceBloc>(context).add(
-        AdviceRequestEvent(param: 'D'),
+        AdviceRequestEvent(),
       ),
       child: Material(
         elevation: 20,

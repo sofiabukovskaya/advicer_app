@@ -1,4 +1,9 @@
-abstract class AdviceState {}
+import 'package:equatable/equatable.dart';
+
+abstract class AdviceState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class AdviceInitial extends AdviceState {}
 
@@ -8,10 +13,15 @@ class AdviceStateLoaded extends AdviceState {
   final String advice;
 
   AdviceStateLoaded({required this.advice});
+  @override
+  List<Object?> get props => [advice];
 }
 
 class AdviceStateError extends AdviceState {
   final String message;
 
   AdviceStateError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
