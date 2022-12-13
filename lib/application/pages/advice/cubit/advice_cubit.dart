@@ -1,5 +1,8 @@
 import 'package:advicer_app/application/pages/advice/cubit/advice_state.dart';
+import 'package:advicer_app/domain/usecases/advice_usecases.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../domain/failures/failures.dart';
 
 class AdviceCubit extends Cubit<AdviceCubitState> {
   AdviceCubit()
@@ -7,18 +10,39 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
           AdviceInitial(),
         );
 
+  final AdviceUseCases adviceUseCases = AdviceUseCases();
+
   void adviceRequested() async {
     emit(
       AdviceStateLoading(),
     );
-
-    await Future.delayed(
-        const Duration(
-          seconds: 2,
+    final failureOrAdvice = await adviceUseCases.getAdvice();
+    failureOrAdvice.fold(
+      (failure) => emit(
+         AdviceStateError(
+          message: _mapFailureToMessage(failure),
         ),
-        () {});
-    emit(
-      const AdviceStateLoaded(advice: 'test advice'),
+      ),
+      (advice) => emit(
+        AdviceStateLoaded(
+          advice: advice.advice,
+        ),
+      ),
     );
+  }
+
+
+  String _mapFailureToMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return 'Server failure';
+      case CacheFailure:
+        return 'Cache failure';
+
+      case GeneralFailure:
+        return 'General failure';
+      default:
+        return 'Something gone wrong!';
+    }
   }
 }
