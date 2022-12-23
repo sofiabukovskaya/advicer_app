@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class AdviceEntity extends Equatable{
+class AdviceEntity extends Equatable {
   final String advice;
   final int id;
 
@@ -8,5 +8,4 @@ class AdviceEntity extends Equatable{
 
   @override
   List<Object?> get props => [advice, id];
-
 }

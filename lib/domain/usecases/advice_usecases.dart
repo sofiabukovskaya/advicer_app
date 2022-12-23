@@ -4,7 +4,10 @@ import 'package:advicer_app/domain/failures/failures.dart';
 import 'package:dartz/dartz.dart';
 
 class AdviceUseCases {
-  final adviceRepo = AdviceRepoImpl();
+  AdviceUseCases({
+    required this.adviceRepo,
+  });
+  final AdviceRepoImpl adviceRepo;
 
   Future<Either<Failure, AdviceEntity>> getAdvice() async {
     return adviceRepo.getAdviceFromDataSource();

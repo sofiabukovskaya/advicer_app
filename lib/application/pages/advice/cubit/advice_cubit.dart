@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/failures/failures.dart';
 
 class AdviceCubit extends Cubit<AdviceCubitState> {
-  AdviceCubit()
-      : super(
+  AdviceCubit({
+    required this.adviceUseCases,
+  }) : super(
           AdviceInitial(),
         );
 
-  final AdviceUseCases adviceUseCases = AdviceUseCases();
+  final AdviceUseCases adviceUseCases;
 
   void adviceRequested() async {
     emit(
@@ -19,7 +20,7 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
     final failureOrAdvice = await adviceUseCases.getAdvice();
     failureOrAdvice.fold(
       (failure) => emit(
-         AdviceStateError(
+        AdviceStateError(
           message: _mapFailureToMessage(failure),
         ),
       ),
@@ -30,7 +31,6 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
       ),
     );
   }
-
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
