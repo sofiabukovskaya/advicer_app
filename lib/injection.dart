@@ -10,31 +10,19 @@ import 'package:http/http.dart' as http;
 final sl = GetIt.I;
 
 Future<void> init() async {
-  sl.registerFactory(
-    () => AdviceCubit(
-      adviceUseCases: sl(),
-    ),
-  );
+// ! application Layer
+  // Factory = every time a new/fresh instance of that class
+  sl.registerFactory(() => AdviceCubit(adviceUseCases: sl()));
 
-  sl.registerFactory(
-    () => AdviceUseCases(
-      adviceRepo: sl(),
-    ),
-  );
+// ! domain Layer
+  sl.registerFactory(() => AdviceUseCases(adviceRepo: sl()));
 
+// ! data Layer
   sl.registerFactory<AdviceRepository>(
-    () => AdviceRepoImpl(
-      adviceRemoteDatasource: sl(),
-    ),
-  );
-
+      () => AdviceRepoImpl(adviceRemoteDatasource: sl()));
   sl.registerFactory<AdviceRemoteDatasource>(
-    () => AdviceRemoteDatasourceImpl(
-      client: sl(),
-    ),
-  );
+      () => AdviceRemoteDatasourceImpl(client: sl()));
 
-  sl.registerFactory(
-    () => http.Client(),
-  );
+// ! externs
+  sl.registerFactory(() => http.Client());
 }
